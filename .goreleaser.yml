@@ -1,0 +1,113 @@
+# GoReleaser Configuration
+# https://goreleaser.com
+
+version: 2
+
+project_name: skillguard
+
+archives:
+  - id: default
+    formats:
+      - tar.gz
+
+checksum:
+  name_template: 'checksums.txt'
+
+changelog:
+  filters:
+    exclude:
+      - '^docs:'
+      - '^chore:'
+      - '^test:'
+
+builds:
+  - id: darwin-amd64
+    binary: skillguard
+    main: ./main.go
+    goos:
+      - darwin
+    goarch:
+      - amd64
+    ldflags:
+      - -s -w
+      - -X skillguard/cmd.Version={{ .Version }}
+    env:
+      - CGO_ENABLED=0
+
+  - id: darwin-arm64
+    binary: skillguard
+    main: ./main.go
+    goos:
+      - darwin
+    goarch:
+      - arm64
+    ldflags:
+      - -s -w
+      - -X skillguard/cmd.Version={{ .Version }}
+    env:
+      - CGO_ENABLED=0
+
+  - id: linux-amd64
+    binary: skillguard
+    main: ./main.go
+    goos:
+      - linux
+    goarch:
+      - amd64
+    ldflags:
+      - -s -w
+      - -X skillguard/cmd.Version={{ .Version }}
+    env:
+      - CGO_ENABLED=0
+
+  - id: linux-arm64
+    binary: skillguard
+    main: ./main.go
+    goos:
+      - linux
+    goarch:
+      - arm64
+    ldflags:
+      - -s -w
+      - -X skillguard/cmd.Version={{ .Version }}
+    env:
+      - CGO_ENABLED=0
+
+  - id: windows-amd64
+    binary: skillguard
+    main: ./main.go
+    goos:
+      - windows
+    goarch:
+      - amd64
+    ldflags:
+      - -s -w
+      - -X skillguard/cmd.Version={{ .Version }}
+    env:
+      - CGO_ENABLED=0
+
+  - id: windows-arm64
+    binary: skillguard
+    main: ./main.go
+    goos:
+      - windows
+    goarch:
+      - arm64
+    ldflags:
+      - -s -w
+      - -X skillguard/cmd.Version={{ .Version }}
+    env:
+      - CGO_ENABLED=0
+
+release:
+  draft: false
+
+homebrew_casks:
+  - repository:
+      owner: OSSAfrica
+      name: homebrew-skillguard
+      token: "{{ .Env.HOMEBREW_TAP_GITHUB_TOKEN }}"
+    homepage: "https://github.com/OSSAfrica/skillguard"
+    description: "Security scanner for AI skill definitions"
+    license: "MIT"
+    name: skillguard
